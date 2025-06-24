@@ -1,0 +1,14 @@
+# Ánh xạ một-một bằng Hash Map (Hash Map - Bijective Mapping)
+# Idea: Map characters or values one-to-one for isomorphic or uniqueness checks.
+# Idea VN: Dùng từ điển (hash map) để ánh xạ từng phần tử của chuỗi này với chuỗi kia sao cho mỗi phần tử chỉ ánh xạ duy nhất một phần tử còn lại. Dùng để kiểm tra tính "tương đồng cấu trúc" của 2 chuỗi.
+# Used in: 205
+
+# Tổng cộng dồn (Prefix Sum)
+# Idea: Build a running total to answer sum range or balance-related problems efficiently
+# Idea VN: Tính tổng luỹ kế dần để xử lý các bài toán liên quan đến tổng đoạn con, hoặc cân bằng trái/phải một cách hiệu quả hơn là duyệt lại từ đầu.
+# Used in: 1480, 724
+
+# Hai con trỏ (Two Pointers)
+# Idea: Use two moving indices to compare or scan through two sequences
+# Idea VN: Dùng hai con trỏ để quét song song hoặc so sánh hai chuỗi/dãy, giúp tiết kiệm thời gian thay vì duyệt lồng nhau.
+# Used in: 392
