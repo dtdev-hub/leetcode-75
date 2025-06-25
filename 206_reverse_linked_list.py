@@ -2,6 +2,10 @@
 Given the head of a singly linked list, reverse the list, and return the reversed list.
 """
 
+from leetcode_helpers import linked_list_to_list
+from leetcode_helpers import build_linked_list
+
+
 # Definition for singly-linked list.
 class ListNode(object):
     def __init__(self, val=0, next=None):
@@ -27,27 +31,17 @@ class Solution(object):
         return prev
 
 
-# Helpers
-def build_linked_list(values):
-    head = None
-    for val in reversed(values):
-        head = ListNode(val, head)
-    return head
-
-def linked_list_to_list(head):
-    result = []
-    while head:
-        result.append(head.val)
-        head = head.next
-    return result
-
-
 # Test Cases
 if __name__ == "__main__":
     solution = Solution()
 
-    assert linked_list_to_list(solution.reverseList(build_linked_list([1, 2, 3, 4, 5]))) == [5, 4, 3, 2, 1]
-    assert linked_list_to_list(solution.reverseList(build_linked_list([1, 2]))) == [2, 1]
+    assert linked_list_to_list(
+        solution.reverseList(build_linked_list([1, 2, 3, 4, 5]))
+    ) == [5, 4, 3, 2, 1]
+    assert linked_list_to_list(solution.reverseList(build_linked_list([1, 2]))) == [
+        2,
+        1,
+    ]
     assert linked_list_to_list(solution.reverseList(build_linked_list([]))) == []
 
     print("All tests passed.")
