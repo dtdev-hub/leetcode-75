@@ -1,3 +1,4 @@
 # Bài cần luyện lại
 - 392. Is Subsequence
 - 206. Reverse Linked List
+- 605. Can Place Flowers
