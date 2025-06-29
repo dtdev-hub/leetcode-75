@@ -1,4 +1,6 @@
 # Bài cần luyện lại
 - 392. Is Subsequence
 - 206. Reverse Linked List
+- 345. Reverse Vowels of a String
 - 605. Can Place Flowers
+- 1071. Greatest Common Divisor of Strings
