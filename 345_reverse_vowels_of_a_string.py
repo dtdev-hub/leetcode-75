@@ -7,23 +7,18 @@ The vowels are 'a', 'e', 'i', 'o', and 'u', and they can appear in both lower an
 
 class Solution:
     def reverseVowels(self, s: str) -> str:
-        vowels = {"a", "e", "i", "o", "u"}
-        reverse = list()
-        temp_vowels = list()
-        temp_idx = list()
+        vowels = set("aeiouAEIOU")
+        s_list = list(s)
+        left, right = 0, len(s) - 1
 
-        for i, char in enumerate(s):
-            if char.lower() in vowels:
-                reverse += "_"
-                temp_vowels.append(char)
-                temp_idx.append(i)
-            else:
-                reverse += char
-
-        for i, v in zip(temp_idx, reversed(temp_vowels)):
-            reverse[i] = v
-
-        reverse_string = "".join(reverse)
-
-        return reverse_string
+        while left < right:
+            while left < right and s_list[left] not in vowels:
+                left += 1
+            while left < right and s_list[right] not in vowels:
+                right -= 1
+            if left < right:
+                s_list[left], s_list[right] = s_list[right], s_list[left]
+                left += 1
+                right -= 1
+        return ''.join(s_list)
 
