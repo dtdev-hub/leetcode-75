@@ -12,19 +12,19 @@ class Solution(object):
         :type word2: str
         :rtype: str
         """
-        bigger_len = len(word1) if len(word1) >= len(word2) else len(word2)
-        new_order_chars = list()
-        for i in range(bigger_len):
-            try:
-                new_order_chars.append(word1[i])
-            except IndexError:
-                pass
-            try:
-                new_order_chars.append(word2[i])
-            except IndexError:
-                pass
-        new_str = "".join(c for c in new_order_chars)
-        return new_str
+        merged = []
+        min_len = min(len(word1), len(word2))
+
+        # Add characters alternately up to the shorter length
+        for i in range(min_len):
+            merged.append(word1[i])
+            merged.append(word2[i])
+
+        # Add the remaining part of the longer string
+        merged.append(word1[min_len:])
+        merged.append(word2[min_len:])
+
+        return "".join(merged)
 
 
 # Test Cases
