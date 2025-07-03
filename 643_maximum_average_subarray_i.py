@@ -15,25 +15,12 @@ class Solution:
         :type k: int
         :rtype: float
         """
-        max_avg = float('-inf')
-        i = 0
-        temp_sum = 0
-
-        while i + k <= len(nums):
-
-            if i == 0:
-                for j in range(i, i + k):
-                    temp_sum += nums[j]
-            else:
-                temp_sum = temp_sum - nums[i - 1] + nums[i + k - 1]
-
-            avg = temp_sum / k
-            if avg > max_avg:
-                max_avg = avg
-
-            i += 1
-
-        return max_avg
+        window_sum = sum(nums[:k])
+        max_sum = window_sum
+        for i in range(k, len(nums)):
+            window_sum += nums[i] - nums[i - k]
+            max_sum = max(max_sum, window_sum)
+        return max_sum / k
 
 
 # Test Cases
