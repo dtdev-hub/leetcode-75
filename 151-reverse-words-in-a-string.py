@@ -27,6 +27,36 @@ class Solution:
 
         return " ".join(reversed(words))
 
+    # Alternative method 3: Using two pointers (most efficient)
+    def reverseWords_optimal(self, s: str) -> str:
+        # Convert to list for easier manipulation
+        chars = list(s.strip())
+
+        # Reverse the entire string
+        self.reverse(chars, 0, len(chars) - 1)
+
+        # Reverse each word back
+        start = 0
+        for end in range(len(chars) + 1):
+            if end == len(chars) or chars[end] == ' ':
+                self.reverse(chars, start, end - 1)
+                start = end + 1
+
+        # Clean up multiple spaces
+        return self.clean_spaces(chars)
+
+    def reverse(self, chars, left, right):
+        while left < right:
+            chars[left], chars[right] = chars[right], chars[left]
+            left += 1
+            right -= 1
+
+    def clean_spaces(self, chars):
+        result = []
+        for char in chars:
+            if char != ' ' or (result and result[-1] != ' '):
+                result.append(char)
+        return ''.join(result).strip()
 
 # Test Cases
 if __name__ == "__main__":
