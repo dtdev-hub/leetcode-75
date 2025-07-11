@@ -10,39 +10,25 @@ Notice that you may not slant the container.
 
 from typing import List
 
-# area = (j-i) * min(n[i], n[j])
-
 
 class Solution:
-    @staticmethod
-    def update_max_area(current, new):
-        if current < new:
-            current = new
-        return current
-
-    @staticmethod
-    def calculate_area(i, h1, j, h2):
-        area = (j - i) * min(h1, h2)
-        return area
-
     def maxArea(self, height: List[int]) -> int:
-        span = len(height)
         max_area = 0
+        left = 0
+        right = len(height) - 1
 
-        # i: 0, 0, 1           h1: 3, 3, 6
-        # j: 2, 1, 1           h2: 1, 6, 6
+        while left < right:
+            # Calculate current area
+            width = right - left
+            current_height = min(height[left], height[right])
+            area = width * current_height
+            max_area = max(max_area, area)
 
-        j = span - 1
-        h2 = height[j]
-        for i, h1 in enumerate(height):
-            temp_area = self.calculate_area(i, h1, j, h2)
-            max_area = self.update_max_area(max_area, temp_area)
-
-            while h2 < h1 and j >= i:
-                j -= 1
-                h2 = height[j]
-                temp_area = self.calculate_area(i, h1, j, h2)
-                max_area = self.update_max_area(max_area, self.calculate_area(i, h1, j, h2))
+            # Move pointer with smaller height
+            if height[left] < height[right]:
+                left += 1
+            else:
+                right -= 1
 
         return max_area
 
