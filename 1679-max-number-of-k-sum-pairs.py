@@ -7,44 +7,70 @@ Return the maximum number of operations you can perform on the array.
 """
 
 from typing import List
-from collections import defaultdict
+from collections import Counter
 
 
 class Solution:
-    def maxOperations(self, nums: List[int], k: int) -> int:
-        num_order = defaultdict(list)
-        nums_set = set(nums)
-        for i, n in enumerate(nums):
-            num_order[n].append(i)
-
-        indices_to_remove = list()
+    def maxOperations_Counter_1(self, nums: List[int], k: int) -> int:
+        """
+        Returns the maximum number of operations where each operation consists of removing two numbers whose sum is k.
+        """
         count = 0
-        # edge cases
-        if len(nums) == 1:
-            return 0
-
-        # normal cases
-        for i1, n1 in enumerate(nums):
-            n2 = k - n1
-            if (n1 == n2 and len(num_order[n2]) > 1) or (
-                n1 != n2
-                and n2 in nums_set
-                and len(num_order[n1]) > 0
-                and len(num_order[n2]) > 0
-            ):
-                print("n1, n2: ", n1, n2)
-                print("num_order begin: ", num_order)
-                count += 1
-                indices_to_remove.append(i1)
-                # i2
-                i2 = num_order[n2][-1]
-                indices_to_remove.append(i2)
-
-                num_order[n1].pop(0)
-                num_order[n2].pop(-1)
-                print("num_order end: ", num_order)
-
+        freq = Counter(nums)
+        for num in list(freq.keys()):
+            complement = k - num
+            if complement in freq:
+                if num == complement:
+                    pairs = freq[num] // 2
+                else:
+                    pairs = min(freq[num], freq[complement])
+                count += pairs
+                freq[num] -= pairs
+                freq[complement] -= pairs
         return count
+
+    def maxOperations_Counter_2(self, nums: List[int], k: int) -> int:
+        """
+        Approach 1: Using Counter (Hash Map)
+        Time: O(n), Space: O(n)
+        """
+        count = Counter(nums)
+        operations = 0
+
+        for num in count:
+            complement = k - num
+
+            if num == complement:
+                # Special case: num + num = k
+                operations += count[num] // 2
+            elif num < complement and complement in count:
+                # Normal case: avoid double counting by only processing when num < complement
+                operations += min(count[num], count[complement])
+
+        return operations
+
+    def maxOperations_twoPointers(self, nums: List[int], k: int) -> int:
+        """
+        Approach 2: Two Pointers after sorting
+        Time: O(n log n), Space: O(1)
+        """
+        nums.sort()
+        left, right = 0, len(nums) - 1
+        operations = 0
+
+        while left < right:
+            current_sum = nums[left] + nums[right]
+
+            if current_sum == k:
+                operations += 1
+                left += 1
+                right -= 1
+            elif current_sum < k:
+                left += 1
+            else:
+                right -= 1
+
+        return operations
 
 
 def run_tests() -> None:
