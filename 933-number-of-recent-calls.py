@@ -1,28 +1,36 @@
 """
-You have a RecentCounter class which counts the number of recent requests within a certain time frame.
+RecentCounter tracks the number of requests received in the past 3000 milliseconds.
 
-Implement the RecentCounter class:
+The original implementation used a standard list to store request timestamps and removed
+expired entries with ``pop(0)``. This resulted in ``O(n)`` time complexity per operation,
+which could become slow as the number of requests grew.
 
-RecentCounter() Initializes the counter with zero recent requests.
-int ping(int t) Adds a new request at time t, where t represents some time in milliseconds, and returns the number of requests that has happened in the past 3000 milliseconds (including the new request). Specifically, return the number of requests that have happened in the inclusive range [t - 3000, t].
-It is guaranteed that every call to ping uses a strictly larger value of t than the previous call.
+This version uses ``collections.deque`` to achieve ``O(1)`` removals from the left,
+ensuring that the ``ping`` method runs efficiently.
 """
 
+from collections import deque
+
+
 class RecentCounter:
-   def __init__(self):
-       self.requests = []  # Store the timestamps of ping calls
+    """Count recent requests in the last 3000 milliseconds."""
 
-   def ping(self, t: int) -> int:
-       # Add the current timestamp
-       self.requests.append(t)
+    def __init__(self) -> None:
+        # Using deque allows O(1) pops from the left as older timestamps expire
+        self.requests: deque[int] = deque()
 
-       # Remove requests older than 3000ms
-       while self.requests and self.requests[0] < t - 3000:
-           self.requests.pop(0)
+    def ping(self, t: int) -> int:
+        """Record a new request and return the number within the past 3000 ms."""
 
-       # Return the number of requests in the time window
-       return len(self.requests)
+        # Add the current timestamp
+        self.requests.append(t)
 
+        # Remove requests older than 3000ms
+        while self.requests and self.requests[0] < t - 3000:
+            self.requests.popleft()
+
+        # Return the number of requests in the time window
+        return len(self.requests)
 
 
 # Your RecentCounter object will be instantiated and called as such:
